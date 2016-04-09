@@ -4,7 +4,7 @@ import javax.swing.JButton;
 
 public class Cell extends JButton {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4993048163772888881L;
 	private boolean hasMine = false;
 
 	public Cell(boolean hasMine) 
