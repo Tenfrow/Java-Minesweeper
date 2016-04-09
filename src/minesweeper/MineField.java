@@ -20,16 +20,6 @@ public class MineField extends Panel {
 		this.field = new Cell[rows][cols];
 	}
 	
-	public int getRows() 
-	{
-		return this.rows;
-	}
-	
-	public int getCols()
-	{
-		return this.cols;
-	}
-	
 	public void setMines(int count)
 	{
 		int maxCount = this.rows * this.cols;
@@ -42,6 +32,16 @@ public class MineField extends Panel {
 				continue;
 			}
 		}
+	}
+	
+	public int getRows() 
+	{
+		return this.rows;
+	}
+	
+	public int getCols()
+	{
+		return this.cols;
 	}
 	
 	private boolean setMine(int x, int y) 

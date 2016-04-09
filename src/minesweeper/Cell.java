@@ -21,10 +21,9 @@ public class Cell extends JButton {
 		return true;
 	}
 	
-	public boolean getHasMine()
+	public boolean hasMine()
 	{
 		return this._hasMine;
 	}
-	
 	
 }
