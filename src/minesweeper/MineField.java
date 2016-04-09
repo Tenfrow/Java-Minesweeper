@@ -10,7 +10,7 @@ public class MineField extends Panel {
 	private int cols;
 	private int minesAmount;
 	private Cell[][] field;
-	
+	private boolean isMinesSet = false;
 	
 	public MineField(int rows, int cols)
 	{
@@ -32,6 +32,11 @@ public class MineField extends Panel {
 				continue;
 			}
 		}
+	}
+	
+	public void openCell(int x, int y) 
+	{
+		
 	}
 	
 	public int getRows() 

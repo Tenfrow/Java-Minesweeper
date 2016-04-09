@@ -5,25 +5,25 @@ import javax.swing.JButton;
 public class Cell extends JButton {
 
 	private static final long serialVersionUID = 1L;
-	private boolean _hasMine = false;
+	private boolean hasMine = false;
 
 	public Cell(boolean hasMine) 
 	{
-		this._hasMine = hasMine;
+		this.hasMine = hasMine;
 	}
 	
 	public boolean setMine()
 	{
-		if (this._hasMine) {
+		if (this.hasMine) {
 			return false;
 		}
-		this._hasMine = true;
+		this.hasMine = true;
 		return true;
 	}
 	
 	public boolean hasMine()
 	{
-		return this._hasMine;
+		return this.hasMine;
 	}
 	
 }
