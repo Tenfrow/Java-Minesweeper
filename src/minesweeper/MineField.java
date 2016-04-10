@@ -1,10 +1,12 @@
 package minesweeper;
 
 import java.awt.GridLayout;
-import java.awt.Panel;
+import java.util.Arrays;
 import java.util.Random;
 
-public class MineField extends Panel {
+import javax.swing.JPanel;
+
+public class MineField extends JPanel {
 	
 	private static final long serialVersionUID = -6201984664074599724L;
 	private int rows;
@@ -13,6 +15,8 @@ public class MineField extends Panel {
 	private Cell[][] field;
 	private boolean isMinesSet = false;
 	
+	private boolean debug = false;
+	
 	public MineField(int rows, int cols, int mines)
 	{
 		this.setLayout(new GridLayout(rows, cols));
@@ -20,16 +24,18 @@ public class MineField extends Panel {
 		this.cols = cols;
 		this.minesCount = mines;
 		this.field = new Cell[rows][cols];
+		setupCells();
 	}
-	
+
 	public void placeMines()
 	{
 		int maxCount = rows * cols;
 		int count = (this.minesCount > maxCount) ? maxCount : this.minesCount;
-		Random rand = new Random();
+		Random rand = new Random(3);
 		while (count > 0) {
-			if (setMine(rand.nextInt(rows), rand.nextInt(cols))) {
-				count--;	
+			int[] cellCoords = {rand.nextInt(rows), rand.nextInt(cols)};
+			if (setMine(cellCoords[0], cellCoords[1])) {
+				count--;
 			} else {
 				continue;
 			}
@@ -37,37 +43,35 @@ public class MineField extends Panel {
 		this.isMinesSet = true;
 	}
 	
-	public void openCell(int x, int y) 
+	public void openCell(Cell cell) 
 	{
-		if (!isMinesSet) {
-			//TODO prevent setting mines in current cell
-			placeMines();
-		}
-		Cell cell = field[x][y];
-		if(cell.hasMine()) {
-			//TODO KABOOOM!
-			cell.setText("M");
-		} else {
-			//TODO set around mines count
-		}
+		cell.openCell();
 	}
 	
-	public int getRows() 
+	public boolean isMinesSet()
 	{
-		return rows;
+		return isMinesSet;
 	}
-	
-	public int getCols()
-	{
-		return cols;
-	}
-	
+
 	private boolean setMine(int x, int y) 
 	{
-		if (field[x][y].setMine()) {
-			return false;
+		Cell cell = field[x][y];
+		if (cell.setMine()) {
+			if (debug) {
+				cell.setText("M");
+			}
+			return true;
 		}
-		return true;
+		return false;
+	}
+	
+	private void setupCells() {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				Cell cell = field[i][j] = new Cell(this, i, j);
+				this.add(cell);
+			}
+		}
 	}
 	
 }
