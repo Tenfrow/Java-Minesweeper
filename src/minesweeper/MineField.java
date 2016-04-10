@@ -1,5 +1,6 @@
 package minesweeper;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Arrays;
 import java.util.Random;
@@ -31,7 +32,7 @@ public class MineField extends JPanel {
 	{
 		int maxCount = rows * cols;
 		int count = (this.minesCount > maxCount) ? maxCount : this.minesCount;
-		Random rand = new Random(3);
+		Random rand = new Random();
 		while (count > 0) {
 			int[] cellCoords = {rand.nextInt(rows), rand.nextInt(cols)};
 			if (setMine(cellCoords[0], cellCoords[1])) {
@@ -43,11 +44,53 @@ public class MineField extends JPanel {
 		this.isMinesSet = true;
 	}
 	
-	public void openCell(Cell cell) 
+	public int getRows()
 	{
-		cell.openCell();
+		return rows;
 	}
 	
+	public int getCols()
+	{
+		return cols;
+	}
+	
+	public void openCell(Cell cell) 
+	{
+		if (!isMinesSet()) {
+			placeMines();
+		}
+		if(cell.hasMine()) {
+			//TODO KABOOOM!
+			cell.setBackground(new Color(255, 100, 100));
+			cell.setText("M");
+		} else {
+			int count = countMines(cell);
+			if (count > 0) {
+				cell.setText(Integer.toString(count));
+			}
+		}
+	}
+	
+	private int countMines(Cell cell) {
+		int[] coords = cell.getCoords();
+		int count = 0;
+		cell.check();
+		for (int dx = -1; dx <= 1; dx++) {
+			for (int dy = -1; dy <= 1; dy++) {
+				try {
+					Cell checkingCell = field[coords[0] + dx][coords[1] + dy];
+					if (!checkingCell.isChecked()) {
+						if (checkingCell.hasMine()) {
+							count++;
+						}
+					}
+				} catch (ArrayIndexOutOfBoundsException exc) { }
+			}
+		}	
+
+		return count;
+	}
+
 	public boolean isMinesSet()
 	{
 		return isMinesSet;
