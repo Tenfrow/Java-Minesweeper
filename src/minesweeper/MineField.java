@@ -5,8 +5,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javafx.scene.text.Font;
-
 import javax.swing.JPanel;
 
 public class MineField extends JPanel {
@@ -60,14 +58,15 @@ public class MineField extends JPanel {
 		if (cell.hasMine()) {
 			//TODO KABOOOM!
 			cell.setBackground(new Color(255, 100, 100));
-			cell.setText("M");
+			cell.setText("☼");			
 		} else {
 			int count = countMines(cell);
 			if (count > 0) {
 				cell.setText(Integer.toString(count));
 			} else {
 				for (Cell cellToOpen : getNotCheckedSurroundingCells(cell)) {
-					openCell(cellToOpen);
+					if(!cellToOpen.isFlagged())
+						openCell(cellToOpen);
 				}
 			}
 		}
@@ -113,7 +112,7 @@ public class MineField extends JPanel {
 		Cell cell = field[x][y];
 		if (cell.setMine()) {
 			if (debug) {
-				cell.setText("M");
+				cell.setText("☼");
 			}
 			return true;
 		}
