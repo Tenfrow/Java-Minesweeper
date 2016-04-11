@@ -54,7 +54,6 @@ public class Cell extends JButton implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e)	
 	{
-
 	
 	}
 	
@@ -86,34 +85,34 @@ public class Cell extends JButton implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (!isFlagged && SwingUtilities.isLeftMouseButton(e)) {
-			mineField.openCell(this);	
+		if(e.getButton() == MouseEvent.BUTTON1 && !isFlagged()){
+			openCell();
 		}
-		if (SwingUtilities.isRightMouseButton(e)) {
+		if(e.getButton() == MouseEvent.BUTTON3 && !isChecked){
 			flag();
-		}
+	    }
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseExited(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
