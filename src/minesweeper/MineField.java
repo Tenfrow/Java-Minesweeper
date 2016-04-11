@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javafx.scene.text.Font;
+
 import javax.swing.JPanel;
 
 public class MineField extends JPanel {
@@ -76,7 +78,7 @@ public class MineField extends JPanel {
 		return isMinesSet;
 	}
 	
-	private int countMines(Cell cell, boolean light) {
+	private int countMines(Cell cell) {
 		int count = 0;
 		cell.check();
 		for (Cell checkingCell : getNotCheckedSurroundingCells(cell)) {
@@ -87,7 +89,6 @@ public class MineField extends JPanel {
 
 		return count;
 	}
-	
 	
 	private ArrayList<Cell> getNotCheckedSurroundingCells(Cell cell)
 	{
@@ -105,11 +106,6 @@ public class MineField extends JPanel {
 		}
 		
 		return cells;
-	}
-	
-	private int countMines(Cell cell)
-	{
-		return countMines(cell, false);
 	}
 
 	private boolean setMine(int x, int y) 
