@@ -1,2 +1,2 @@
-# Java-Minesweeper
+# Minesweeper
 Something like minesweeper
