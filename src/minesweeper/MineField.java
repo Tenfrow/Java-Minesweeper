@@ -44,16 +44,6 @@ public class MineField extends JPanel {
 		isMinesSet = true;
 	}
 	
-	public int getRows()
-	{
-		return rows;
-	}
-	
-	public int getCols()
-	{
-		return cols;
-	}
-	
 	public void openCell(Cell cell)
 	{
 		openCell(cell, false);
@@ -73,6 +63,10 @@ public class MineField extends JPanel {
 			int count = countMines(cell);
 			if (count > 0) {
 				cell.setText(Integer.toString(count));
+			} else {
+				for (Cell cellToOpen : getNotCheckedSurroundingCells(cell)) {
+					openCell(cellToOpen);
+				}
 			}
 		}
 	}
@@ -85,18 +79,17 @@ public class MineField extends JPanel {
 	private int countMines(Cell cell, boolean light) {
 		int count = 0;
 		cell.check();
-		for (Cell checkingCell : getSurroundingCells(cell)) {
-			if (!checkingCell.isChecked()) {
-				if (checkingCell.hasMine()) {
-					count++;
-				}
+		for (Cell checkingCell : getNotCheckedSurroundingCells(cell)) {
+			if (checkingCell.hasMine()) {
+				count++;
 			}
 		}
 
 		return count;
 	}
 	
-	private ArrayList<Cell> getSurroundingCells(Cell cell)
+	
+	private ArrayList<Cell> getNotCheckedSurroundingCells(Cell cell)
 	{
 		int[] coords = cell.getCoords();
 		ArrayList<Cell> cells = new ArrayList<Cell>();
@@ -104,7 +97,9 @@ public class MineField extends JPanel {
 			for (int dy = -1; dy <= 1; dy++) {
 				try {
 					Cell cellToAdd = field[coords[0] + dx][coords[1] + dy];
-					cells.add(cellToAdd);
+					if (!cellToAdd.isChecked()) {
+						cells.add(cellToAdd);
+					}
 				} catch (ArrayIndexOutOfBoundsException exc) { }
 			}
 		}
