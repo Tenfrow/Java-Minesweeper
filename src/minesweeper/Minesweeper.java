@@ -13,7 +13,6 @@ public class Minesweeper {
 		frame.setResizable(false);
 		frame.setLayout(new GridLayout(1, 1));
 		MineField mineField = new MineField(10, 10, 10);
-		mineField.placeMines();
 		frame.add(mineField);
 		
 		frame.setBounds(100, 100, 500, 500);

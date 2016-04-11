@@ -2,6 +2,7 @@ package minesweeper;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -30,7 +31,7 @@ public class MineField extends JPanel {
 	public void placeMines()
 	{
 		int maxCount = rows * cols;
-		int count = (this.minesCount > maxCount) ? maxCount : this.minesCount;
+		int count = (minesCount > maxCount) ? maxCount : minesCount;
 		Random rand = new Random();
 		while (count > 0) {
 			int[] cellCoords = {rand.nextInt(rows), rand.nextInt(cols)};
@@ -40,7 +41,7 @@ public class MineField extends JPanel {
 				continue;
 			}
 		}
-		this.isMinesSet = true;
+		isMinesSet = true;
 	}
 	
 	public int getRows()
@@ -53,12 +54,18 @@ public class MineField extends JPanel {
 		return cols;
 	}
 	
-	public void openCell(Cell cell) 
+	public void openCell(Cell cell)
+	{
+		openCell(cell, false);
+	}
+	
+	public void openCell(Cell cell, boolean light) 
 	{
 		if (!isMinesSet()) {
 			placeMines();
 		}
-		if(cell.hasMine()) {
+		cell.setEnabled(false);
+		if (cell.hasMine()) {
 			//TODO KABOOOM!
 			cell.setBackground(new Color(255, 100, 100));
 			cell.setText("M");
@@ -70,29 +77,44 @@ public class MineField extends JPanel {
 		}
 	}
 	
-	private int countMines(Cell cell) {
-		int[] coords = cell.getCoords();
-		int count = 0;
-		cell.check();
-		for (int dx = -1; dx <= 1; dx++) {
-			for (int dy = -1; dy <= 1; dy++) {
-				try {
-					Cell checkingCell = field[coords[0] + dx][coords[1] + dy];
-					if (!checkingCell.isChecked()) {
-						if (checkingCell.hasMine()) {
-							count++;
-						}
-					}
-				} catch (ArrayIndexOutOfBoundsException exc) { }
-			}
-		}	
-
-		return count;
-	}
-
 	public boolean isMinesSet()
 	{
 		return isMinesSet;
+	}
+	
+	private int countMines(Cell cell, boolean light) {
+		int count = 0;
+		cell.check();
+		for (Cell checkingCell : getSurroundingCells(cell)) {
+			if (!checkingCell.isChecked()) {
+				if (checkingCell.hasMine()) {
+					count++;
+				}
+			}
+		}
+
+		return count;
+	}
+	
+	private ArrayList<Cell> getSurroundingCells(Cell cell)
+	{
+		int[] coords = cell.getCoords();
+		ArrayList<Cell> cells = new ArrayList<Cell>();
+		for (int dx = -1; dx <= 1; dx++) {
+			for (int dy = -1; dy <= 1; dy++) {
+				try {
+					Cell cellToAdd = field[coords[0] + dx][coords[1] + dy];
+					cells.add(cellToAdd);
+				} catch (ArrayIndexOutOfBoundsException exc) { }
+			}
+		}
+		
+		return cells;
+	}
+	
+	private int countMines(Cell cell)
+	{
+		return countMines(cell, false);
 	}
 
 	private boolean setMine(int x, int y) 

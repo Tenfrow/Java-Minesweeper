@@ -59,7 +59,6 @@ public class Cell extends JButton implements ActionListener {
 	public void check() 
 	{
 		this.isChecked = true;
-		setEnabled(false);
 	}
 	
 	public boolean isFlagged()
