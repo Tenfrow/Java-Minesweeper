@@ -1,9 +1,7 @@
 package minesweeper;
 
 import java.awt.GridLayout;
-
 import javax.swing.JFrame;
-
 public class Minesweeper {
 	
 	public static void main(String[] args) {

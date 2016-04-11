@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Random;
-
 import javax.swing.JPanel;
 
 public class MineField extends JPanel {
@@ -15,8 +14,6 @@ public class MineField extends JPanel {
 	private int minesCount = 0;
 	private Cell[][] field;
 	private boolean isMinesSet = false;
-	
-	private boolean debug = false;
 	
 	public MineField(int rows, int cols, int mines)
 	{
@@ -44,12 +41,8 @@ public class MineField extends JPanel {
 		isMinesSet = true;
 	}
 	
-	public void openCell(Cell cell)
-	{
-		openCell(cell, false);
-	}
 	
-	public void openCell(Cell cell, boolean light) 
+	public void openCell(Cell cell) 
 	{
 		if (!isMinesSet()) {
 			placeMines();
@@ -58,7 +51,7 @@ public class MineField extends JPanel {
 		if (cell.hasMine()) {
 			//TODO KABOOOM!
 			cell.setBackground(new Color(255, 100, 100));
-			cell.setText("☼");			
+			cell.setText("☼");	
 		} else {
 			int count = countMines(cell);
 			if (count > 0) {
@@ -85,7 +78,6 @@ public class MineField extends JPanel {
 				count++;
 			}
 		}
-
 		return count;
 	}
 	
@@ -103,7 +95,6 @@ public class MineField extends JPanel {
 				} catch (ArrayIndexOutOfBoundsException exc) { }
 			}
 		}
-		
 		return cells;
 	}
 
@@ -111,9 +102,7 @@ public class MineField extends JPanel {
 	{
 		Cell cell = field[x][y];
 		if (cell.setMine()) {
-			if (debug) {
-				cell.setText("☼");
-			}
+			
 			return true;
 		}
 		return false;
