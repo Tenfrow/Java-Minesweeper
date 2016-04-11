@@ -1,0 +1,2 @@
+# Minesweeper
+Something like minesweeper
