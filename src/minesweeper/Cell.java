@@ -78,10 +78,11 @@ public  class Cell extends JButton implements   MouseListener {
 	public void openCell(Cell cell)
 	{
 		cell.setFont(new Font("Consolas", Font.BOLD, this.getSize().height/2 ));
+		cell.setForeground(Color.yellow);
 		cell.setEnabled(false);
 		if (cell.hasMine()) {
 			//TODO KABOOOM!
-			cell.setBackground(new Color(255, 100, 100));
+			//cell.setBackground(new Color(255, 100, 100));
 			cell.setIcon(new ImageIcon(getClass().getResource("../icons/bomb.png")));	
 		} else {
 			int count = mineField.countMines(cell);
@@ -94,7 +95,17 @@ public  class Cell extends JButton implements   MouseListener {
 				}
 			}
 		}
+		//System.out.println(cell.getBackground());
 	}
+	
+	@Override
+	public void setEnabled(boolean b)
+	{
+		this.setForeground(Color.decode("#026202"));
+		this.setBackground(Color.decode("#eeeeee"));
+	}
+	
+	
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
