@@ -1,10 +1,10 @@
 package minesweeper;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class MineField extends JPanel {
@@ -16,8 +16,6 @@ public class MineField extends JPanel {
 	private Cell[][] field;
 	private boolean isMinesSet = false;
 	
-	private boolean debug = false;
-	
 	public MineField(int rows, int cols, int mines)
 	{
 		this.setLayout(new GridLayout(rows, cols));
@@ -28,7 +26,7 @@ public class MineField extends JPanel {
 		setupCells();
 	}
 
-	public void placeMines()
+	private void placeMines()
 	{
 		int maxCount = rows * cols;
 		int count = (minesCount > maxCount) ? maxCount : minesCount;
@@ -44,12 +42,8 @@ public class MineField extends JPanel {
 		isMinesSet = true;
 	}
 	
-	public void openCell(Cell cell)
-	{
-		openCell(cell, false);
-	}
 	
-	public void openCell(Cell cell, boolean light) 
+	public void openCell(Cell cell) 
 	{
 		if (!isMinesSet()) {
 			placeMines();
@@ -57,8 +51,7 @@ public class MineField extends JPanel {
 		cell.setEnabled(false);
 		if (cell.hasMine()) {
 			//TODO KABOOOM!
-			cell.setBackground(new Color(255, 100, 100));
-			cell.setText("☼");			
+			cell.setIcon(new ImageIcon(getClass().getResource("../icons/mine.png")));	
 		} else {
 			int count = countMines(cell);
 			if (count > 0) {
@@ -85,7 +78,6 @@ public class MineField extends JPanel {
 				count++;
 			}
 		}
-
 		return count;
 	}
 	
@@ -103,7 +95,6 @@ public class MineField extends JPanel {
 				} catch (ArrayIndexOutOfBoundsException exc) { }
 			}
 		}
-		
 		return cells;
 	}
 
@@ -111,9 +102,7 @@ public class MineField extends JPanel {
 	{
 		Cell cell = field[x][y];
 		if (cell.setMine()) {
-			if (debug) {
-				cell.setText("☼");
-			}
+			
 			return true;
 		}
 		return false;

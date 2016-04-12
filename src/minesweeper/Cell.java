@@ -1,14 +1,15 @@
 package minesweeper;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
-public class Cell extends JButton implements ActionListener, MouseListener {
+public  class Cell extends JButton implements MouseListener {
 
 	private static final long serialVersionUID = 4993048163772888881L;
 	private boolean hasMine = false;
@@ -20,10 +21,12 @@ public class Cell extends JButton implements ActionListener, MouseListener {
 	
 	public Cell(MineField mineField, int x, int y)
 	{
+		this.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		this.setFont(new Font("Consolas", Font.BOLD, 22 ));
+		this.setForeground(Color.yellow);
 		this.mineField = mineField;
 		this.x = x;
 		this.y = y;
-		this.addActionListener(this);
 		this.addMouseListener(this);
 	}
 	
@@ -46,17 +49,7 @@ public class Cell extends JButton implements ActionListener, MouseListener {
 		int[] coords = {x, y};
 		return coords;
 	}
-	
-	public void openCell() {
-		mineField.openCell(this);
-	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e)	
-	{
-	
-	}
-	
+			
 	public boolean isChecked()
 	{
 		return isChecked;
@@ -74,47 +67,56 @@ public class Cell extends JButton implements ActionListener, MouseListener {
 
 	public void flag()
 	{
-		if (isFlagged()) {
-			setText(null);
+		if (isFlagged) {
+			setIcon(null);
 			isFlagged = false;
 		} else {
-			setText("►");
+			setIcon(new ImageIcon(getClass().getResource("../icons/flag.png")));
 			isFlagged = true;
 		}
 	}
+	
+	@Override
+	public void setEnabled(boolean b)
+	{
+		this.setForeground(Color.decode("#026202"));
+		this.setBackground(Color.decode("#eeeeee"));
+	}
+	
+	
+	
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
+
+	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		if(e.getButton() == MouseEvent.BUTTON1 && !isFlagged()){
-			openCell();
+	public void mouseEntered(MouseEvent e)
+	{
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()){
+			mineField.openCell(this);
 		}
-		if(e.getButton() == MouseEvent.BUTTON3 && !isChecked){
+		if (SwingUtilities.isRightMouseButton(e) && !isChecked){
 			flag();
-	    }
+		}
 	}
-
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseReleased(MouseEvent e)
+	{
+	
 	}
 	
 }
