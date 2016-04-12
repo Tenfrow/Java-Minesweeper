@@ -3,6 +3,8 @@ package minesweeper;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class MineField extends JPanel {
@@ -24,7 +26,7 @@ public class MineField extends JPanel {
 		setupCells();
 	}
 
-	public void placeMines()
+	private void placeMines()
 	{
 		int maxCount = rows * cols;
 		int count = (minesCount > maxCount) ? maxCount : minesCount;
@@ -46,7 +48,21 @@ public class MineField extends JPanel {
 		if (!isMinesSet()) {
 			placeMines();
 		}
-		cell.openCell(cell);
+		cell.setEnabled(false);
+		if (cell.hasMine()) {
+			//TODO KABOOOM!
+			cell.setIcon(new ImageIcon(getClass().getResource("../icons/mine.png")));	
+		} else {
+			int count = countMines(cell);
+			if (count > 0) {
+				cell.setText(Integer.toString(count));
+			} else {
+				for (Cell cellToOpen : getNotCheckedSurroundingCells(cell)) {
+					if(!cellToOpen.isFlagged())
+						openCell(cellToOpen);
+				}
+			}
+		}
 	}
 	
 	public boolean isMinesSet()
@@ -54,7 +70,7 @@ public class MineField extends JPanel {
 		return isMinesSet;
 	}
 	
-	public int countMines(Cell cell) {
+	private int countMines(Cell cell) {
 		int count = 0;
 		cell.check();
 		for (Cell checkingCell : getNotCheckedSurroundingCells(cell)) {
@@ -65,7 +81,7 @@ public class MineField extends JPanel {
 		return count;
 	}
 	
-	public ArrayList<Cell> getNotCheckedSurroundingCells(Cell cell)
+	private ArrayList<Cell> getNotCheckedSurroundingCells(Cell cell)
 	{
 		int[] coords = cell.getCoords();
 		ArrayList<Cell> cells = new ArrayList<Cell>();

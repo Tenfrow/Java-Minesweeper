@@ -22,7 +22,8 @@ public  class Cell extends JButton implements   MouseListener {
 	public Cell(MineField mineField, int x, int y)
 	{
 		this.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		
+		this.setFont(new Font("Consolas", Font.BOLD, 22 ));
+		this.setForeground(Color.yellow);
 		this.mineField = mineField;
 		this.x = x;
 		this.y = y;
@@ -73,29 +74,6 @@ public  class Cell extends JButton implements   MouseListener {
 			setIcon(new ImageIcon(getClass().getResource("../icons/flag.png")));
 			isFlagged = true;
 		}
-	}
-	
-	public void openCell(Cell cell)
-	{
-		cell.setFont(new Font("Consolas", Font.BOLD, this.getSize().height/2 ));
-		cell.setForeground(Color.yellow);
-		cell.setEnabled(false);
-		if (cell.hasMine()) {
-			//TODO KABOOOM!
-			//cell.setBackground(new Color(255, 100, 100));
-			cell.setIcon(new ImageIcon(getClass().getResource("../icons/mine.png")));	
-		} else {
-			int count = mineField.countMines(cell);
-			if (count > 0) {
-				cell.setText(Integer.toString(count));
-			} else {
-				for (Cell cellToOpen : mineField.getNotCheckedSurroundingCells(cell)) {
-					if(!cellToOpen.isFlagged())
-						openCell(cellToOpen);
-				}
-			}
-		}
-		//System.out.println(cell.getBackground());
 	}
 	
 	@Override
