@@ -2,6 +2,7 @@ package minesweeper;
 
 
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
 
@@ -12,10 +13,11 @@ public class Minesweeper {
 		JFrame frame = new JFrame("Minesweeper");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		frame.setLayout(new FlowLayout());
-		MineField mineField = new MineField(12, 12, 20);
+		frame.setLayout(new GridBagLayout());
+		MineField mineField = new MineField(15, 15, 20);
 		frame.add(mineField);
 		frame.pack();
+		frame.setMinimumSize(frame.getSize());
 	}
 	
 }
