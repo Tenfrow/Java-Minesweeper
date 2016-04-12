@@ -83,7 +83,7 @@ public  class Cell extends JButton implements   MouseListener {
 		if (cell.hasMine()) {
 			//TODO KABOOOM!
 			//cell.setBackground(new Color(255, 100, 100));
-			cell.setIcon(new ImageIcon(getClass().getResource("../icons/bomb.png")));	
+			cell.setIcon(new ImageIcon(getClass().getResource("../icons/mine.png")));	
 		} else {
 			int count = mineField.countMines(cell);
 			if (count > 0) {
