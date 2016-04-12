@@ -1,6 +1,5 @@
 package minesweeper;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Random;
@@ -47,22 +46,7 @@ public class MineField extends JPanel {
 		if (!isMinesSet()) {
 			placeMines();
 		}
-		cell.setEnabled(false);
-		if (cell.hasMine()) {
-			//TODO KABOOOM!
-			cell.setBackground(new Color(255, 100, 100));
-			cell.setText("☼");	
-		} else {
-			int count = countMines(cell);
-			if (count > 0) {
-				cell.setText(Integer.toString(count));
-			} else {
-				for (Cell cellToOpen : getNotCheckedSurroundingCells(cell)) {
-					if(!cellToOpen.isFlagged())
-						openCell(cellToOpen);
-				}
-			}
-		}
+		cell.openCell(cell);
 	}
 	
 	public boolean isMinesSet()
@@ -70,7 +54,7 @@ public class MineField extends JPanel {
 		return isMinesSet;
 	}
 	
-	private int countMines(Cell cell) {
+	public int countMines(Cell cell) {
 		int count = 0;
 		cell.check();
 		for (Cell checkingCell : getNotCheckedSurroundingCells(cell)) {
@@ -81,7 +65,7 @@ public class MineField extends JPanel {
 		return count;
 	}
 	
-	private ArrayList<Cell> getNotCheckedSurroundingCells(Cell cell)
+	public ArrayList<Cell> getNotCheckedSurroundingCells(Cell cell)
 	{
 		int[] coords = cell.getCoords();
 		ArrayList<Cell> cells = new ArrayList<Cell>();

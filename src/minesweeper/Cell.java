@@ -1,5 +1,6 @@
 package minesweeper;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -19,7 +20,7 @@ public  class Cell extends JButton implements   MouseListener {
 	public Cell(MineField mineField, int x, int y)
 	{
 		this.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		this.setFont(new Font("Consolas", Font.BOLD, 18 ));
+		
 		this.mineField = mineField;
 		this.x = x;
 		this.y = y;
@@ -71,7 +72,28 @@ public  class Cell extends JButton implements   MouseListener {
 			isFlagged = true;
 		}
 	}
-
+	
+	public void openCell(Cell cell)
+	{
+		cell.setFont(new Font("Consolas", Font.BOLD, this.getSize().height/2 ));
+		cell.setEnabled(false);
+		if (cell.hasMine()) {
+			//TODO KABOOOM!
+			cell.setBackground(new Color(255, 100, 100));
+			cell.setText("☼");	
+		} else {
+			int count = mineField.countMines(cell);
+			if (count > 0) {
+				cell.setText(Integer.toString(count));
+			} else {
+				for (Cell cellToOpen : mineField.getNotCheckedSurroundingCells(cell)) {
+					if(!cellToOpen.isFlagged())
+						openCell(cellToOpen);
+				}
+			}
+		}
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
