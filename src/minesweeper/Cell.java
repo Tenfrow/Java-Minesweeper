@@ -22,7 +22,7 @@ public  class Cell extends JButton implements MouseListener {
 	public Cell(MineField mineField, int x, int y)
 	{
 		this.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		this.setFont(new Font("Consolas", Font.BOLD, 22 ));
+		this.setFont(new Font("Consolas", Font.BOLD, 22));
 		this.setForeground(Color.yellow);
 		this.mineField = mineField;
 		this.x = x;
@@ -32,7 +32,7 @@ public  class Cell extends JButton implements MouseListener {
 	
 	public boolean setMine()
 	{
-		if (this.hasMine) {
+		if (this.hasMine()) {
 			return false;
 		}
 		this.hasMine = true;
@@ -79,6 +79,7 @@ public  class Cell extends JButton implements MouseListener {
 	@Override
 	public void setEnabled(boolean b)
 	{
+//		super.setEnabled(b);
 		this.setForeground(Color.decode("#026202"));
 		this.setBackground(Color.decode("#eeeeee"));
 	}
@@ -109,10 +110,11 @@ public  class Cell extends JButton implements MouseListener {
 		if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()){
 			mineField.openCell(this);
 		}
-		if (SwingUtilities.isRightMouseButton(e) && !isChecked){
+		if (SwingUtilities.isRightMouseButton(e) && !isChecked()){
 			flag();
 		}
 	}
+	
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
