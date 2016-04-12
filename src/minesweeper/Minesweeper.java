@@ -1,8 +1,7 @@
 package minesweeper;
 
 
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
+import java.awt.*;
 
 import javax.swing.JFrame;
 
