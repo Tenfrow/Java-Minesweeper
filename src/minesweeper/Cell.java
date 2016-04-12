@@ -1,6 +1,7 @@
 package minesweeper;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,7 +15,7 @@ public  class Cell extends JButton implements MouseListener {
 	private static final long serialVersionUID = 4993048163772888881L;
 	private boolean hasMine = false;
 	private MineField mineField;
-	private boolean isChecked = false;
+	private boolean isDiscovered = false;
 	private boolean isFlagged = false;
 	private int x;
 	private int y;
@@ -22,8 +23,8 @@ public  class Cell extends JButton implements MouseListener {
 	public Cell(MineField mineField, int x, int y)
 	{
 		this.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		this.setPreferredSize(new Dimension(32, 32));
 		this.setFont(new Font("Consolas", Font.BOLD, 22));
-		this.setForeground(Color.yellow);
 		this.mineField = mineField;
 		this.x = x;
 		this.y = y;
@@ -50,14 +51,19 @@ public  class Cell extends JButton implements MouseListener {
 		return coords;
 	}
 			
-	public boolean isChecked()
+	public boolean isDiscovered()
 	{
-		return isChecked;
+		return isDiscovered;
 	}
 	
-	public void check() 
+	public void discover() 
 	{
-		this.isChecked = true;
+		setEnabled(false);
+		if (hasMine()) {
+			setIcon(new ImageIcon(getClass().getResource("../icons/mine.png")));
+		} else {
+			this.isDiscovered = true;
+		}
 	}
 	
 	public boolean isFlagged()
@@ -65,14 +71,23 @@ public  class Cell extends JButton implements MouseListener {
 		return isFlagged;
 	}
 
-	public void flag()
+	public void toggleFlag()
 	{
 		if (isFlagged) {
-			setIcon(null);
-			isFlagged = false;
+			setFlag(false);
 		} else {
+			setFlag(true);
+		}
+	}
+	
+	public void setFlag(boolean flag)
+	{
+		if (flag) {
 			setIcon(new ImageIcon(getClass().getResource("../icons/flag.png")));
 			isFlagged = true;
+		} else {
+			setIcon(null);
+			isFlagged = false;
 		}
 	}
 	
@@ -83,8 +98,6 @@ public  class Cell extends JButton implements MouseListener {
 		this.setForeground(Color.decode("#026202"));
 		this.setBackground(Color.decode("#eeeeee"));
 	}
-	
-	
 	
 	@Override
 	public void mouseClicked(MouseEvent e)
@@ -107,11 +120,11 @@ public  class Cell extends JButton implements MouseListener {
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()){
+		if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()) {
 			mineField.openCell(this);
 		}
-		if (SwingUtilities.isRightMouseButton(e) && !isChecked()){
-			flag();
+		if (SwingUtilities.isRightMouseButton(e) && !isDiscovered()) {
+			toggleFlag();
 		}
 	}
 	
