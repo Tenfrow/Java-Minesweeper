@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
@@ -65,10 +67,10 @@ public  class Cell extends JButton implements   MouseListener {
 	public void flag()
 	{
 		if (isFlagged) {
-			setText(null);
+			setIcon(null);
 			isFlagged = false;
 		} else {
-			setText("►");
+			setIcon(new ImageIcon(getClass().getResource("../icons/flag.png")));
 			isFlagged = true;
 		}
 	}
@@ -80,7 +82,7 @@ public  class Cell extends JButton implements   MouseListener {
 		if (cell.hasMine()) {
 			//TODO KABOOOM!
 			cell.setBackground(new Color(255, 100, 100));
-			cell.setText("☼");	
+			cell.setIcon(new ImageIcon(getClass().getResource("../icons/bomb.png")));	
 		} else {
 			int count = mineField.countMines(cell);
 			if (count > 0) {
