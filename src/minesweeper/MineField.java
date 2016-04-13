@@ -25,6 +25,10 @@ class MineField extends JPanel {
         placeMines();
     }
 
+    MineField(int rows, int cols, double minesRatio) {
+        this(rows, cols, (int) (rows * cols * minesRatio));
+    }
+
     public boolean isMinesSet() {
         return isMinesSet;
     }
