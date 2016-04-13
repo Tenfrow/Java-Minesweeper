@@ -17,8 +17,8 @@ class Cell extends JButton implements MouseListener {
 
     Cell(MineField mineField, int x, int y) {
         this.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        this.setPreferredSize(new Dimension(32, 32));
-        this.setFont(new Font("Consolas", Font.BOLD, 22));
+        this.setPreferredSize(new Dimension(25, 25));
+        this.setFont(new Font("Consolas", Font.BOLD, 20));
         this.mineField = mineField;
         this.x = x;
         this.y = y;
