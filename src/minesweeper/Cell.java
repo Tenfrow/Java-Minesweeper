@@ -1,14 +1,10 @@
 package minesweeper;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
+import java.util.HashMap;
 
 class Cell extends JButton implements MouseListener {
 
@@ -19,6 +15,7 @@ class Cell extends JButton implements MouseListener {
     private boolean isFlagged = false;
     private int x;
     private int y;
+    private static HashMap<String, ImageIcon> icons = new HashMap<>();
 
     Cell(MineField mineField, int x, int y) {
         this.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -53,7 +50,7 @@ class Cell extends JButton implements MouseListener {
     void discover() {
         setEnabled(false);
         if (hasMine()) {
-            setIcon(new ImageIcon(getClass().getResource("../icons/mine.png")));
+            setIcon(getIcon("mine"));
         } else {
             this.isDiscovered = true;
         }
@@ -73,7 +70,7 @@ class Cell extends JButton implements MouseListener {
 
     private void setFlag(boolean flag) {
         if (flag) {
-            setIcon(new ImageIcon(getClass().getResource("../icons/flag.png")));
+            setIcon(getIcon("flag"));
             isFlagged = true;
         } else {
             setIcon(null);
@@ -81,9 +78,15 @@ class Cell extends JButton implements MouseListener {
         }
     }
 
+    private ImageIcon getIcon(String name) {
+        if (!icons.containsKey(name)) {
+            icons.put(name, new ImageIcon(System.class.getResource("/icons/" + name + ".png")));
+        }
+        return icons.get(name);
+    }
+
     @Override
     public void setEnabled(boolean b) {
-//		super.setEnabled(b);
         this.setForeground(Color.decode("#026202"));
         this.setBackground(Color.decode("#eeeeee"));
     }
