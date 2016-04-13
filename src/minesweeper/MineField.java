@@ -1,11 +1,9 @@
 package minesweeper;
 
-import java.awt.Color;
-import java.awt.GridLayout;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.swing.JPanel;
 
 class MineField extends JPanel {
 
@@ -45,7 +43,7 @@ class MineField extends JPanel {
         cell.discover();
         int surroundingMines = countMines(cell);
         if (surroundingMines > 0) {
-            cell.setText(Integer.toString(surroundingMines));
+            cell.setSurroundingMinesAmount(surroundingMines);
         }
         if (surroundingMines == 0) {
             for (Cell cellToOpen : getCoveredSurroundingCells(cell)) {

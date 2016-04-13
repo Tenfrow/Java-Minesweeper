@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
 
 class Cell extends JButton implements MouseListener {
 
@@ -15,7 +14,6 @@ class Cell extends JButton implements MouseListener {
     private boolean isFlagged = false;
     private int x;
     private int y;
-    private static HashMap<String, ImageIcon> icons = new HashMap<>();
 
     Cell(MineField mineField, int x, int y) {
         this.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -50,7 +48,7 @@ class Cell extends JButton implements MouseListener {
     void discover() {
         setEnabled(false);
         if (hasMine()) {
-            setIcon(getIcon("mine"));
+            setIcon(ResourceManager.getIcon("mine"));
         } else {
             this.isDiscovered = true;
         }
@@ -70,7 +68,7 @@ class Cell extends JButton implements MouseListener {
 
     private void setFlag(boolean flag) {
         if (flag) {
-            setIcon(getIcon("flag"));
+            setIcon(ResourceManager.getIcon("flag"));
             isFlagged = true;
         } else {
             setIcon(null);
@@ -78,16 +76,10 @@ class Cell extends JButton implements MouseListener {
         }
     }
 
-    private ImageIcon getIcon(String name) {
-        if (!icons.containsKey(name)) {
-            icons.put(name, new ImageIcon(System.class.getResource("/icons/" + name + ".png")));
-        }
-        return icons.get(name);
-    }
-
     @Override
     public void setEnabled(boolean b) {
         this.setForeground(Color.decode("#026202"));
+        this.setForeground(ResourceManager.getRandomColor());
         this.setBackground(Color.decode("#eeeeee"));
     }
 
@@ -121,4 +113,11 @@ class Cell extends JButton implements MouseListener {
 
     }
 
+    void setSurroundingMinesAmount(int surroundingMinesAmount) {
+        if (surroundingMinesAmount > 0) {
+            this.setText(Integer.toString(surroundingMinesAmount));
+            this.setForeground(ResourceManager.getNumberColor(surroundingMinesAmount));
+        }
+
+    }
 }
