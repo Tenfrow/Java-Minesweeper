@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
-public  class Cell extends JButton implements MouseListener {
+public class Cell extends JButton implements MouseListener {
 
 	private static final long serialVersionUID = 4993048163772888881L;
 	private boolean hasMine = false;
@@ -100,6 +100,17 @@ public  class Cell extends JButton implements MouseListener {
 	}
 	
 	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()) {
+			mineField.openCell(this);
+		}
+		if (SwingUtilities.isRightMouseButton(e) && !isDiscovered()) {
+			toggleFlag();
+		}
+	}
+	
+	@Override
 	public void mouseClicked(MouseEvent e)
 	{
 
@@ -115,17 +126,6 @@ public  class Cell extends JButton implements MouseListener {
 	public void mouseExited(MouseEvent e)
 	{
 
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()) {
-			mineField.openCell(this);
-		}
-		if (SwingUtilities.isRightMouseButton(e) && !isDiscovered()) {
-			toggleFlag();
-		}
 	}
 	
 	@Override
