@@ -1,7 +1,6 @@
 package minesweeper;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -10,12 +9,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
-public  class Cell extends JButton implements MouseListener {
+public  class Cell extends JButton implements   MouseListener {
 
 	private static final long serialVersionUID = 4993048163772888881L;
 	private boolean hasMine = false;
 	private MineField mineField;
-	private boolean isDiscovered = false;
+	private boolean isChecked = false;
 	private boolean isFlagged = false;
 	private int x;
 	private int y;
@@ -23,8 +22,8 @@ public  class Cell extends JButton implements MouseListener {
 	public Cell(MineField mineField, int x, int y)
 	{
 		this.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		this.setPreferredSize(new Dimension(32, 32));
-		this.setFont(new Font("Consolas", Font.BOLD, 22));
+		this.setFont(new Font("Consolas", Font.BOLD, 22 ));
+		this.setForeground(Color.yellow);
 		this.mineField = mineField;
 		this.x = x;
 		this.y = y;
@@ -33,7 +32,7 @@ public  class Cell extends JButton implements MouseListener {
 	
 	public boolean setMine()
 	{
-		if (this.hasMine()) {
+		if (this.hasMine) {
 			return false;
 		}
 		this.hasMine = true;
@@ -51,19 +50,14 @@ public  class Cell extends JButton implements MouseListener {
 		return coords;
 	}
 			
-	public boolean isDiscovered()
+	public boolean isChecked()
 	{
-		return isDiscovered;
+		return isChecked;
 	}
 	
-	public void discover() 
+	public void check() 
 	{
-		setEnabled(false);
-		if (hasMine()) {
-			setIcon(new ImageIcon(getClass().getResource("../icons/mine.png")));
-		} else {
-			this.isDiscovered = true;
-		}
+		this.isChecked = true;
 	}
 	
 	public boolean isFlagged()
@@ -71,67 +65,59 @@ public  class Cell extends JButton implements MouseListener {
 		return isFlagged;
 	}
 
-	public void toggleFlag()
+	public void flag()
 	{
 		if (isFlagged) {
-			setFlag(false);
-		} else {
-			setFlag(true);
-		}
-	}
-	
-	public void setFlag(boolean flag)
-	{
-		if (flag) {
-			setIcon(new ImageIcon(getClass().getResource("../icons/flag.png")));
-			isFlagged = true;
-		} else {
 			setIcon(null);
 			isFlagged = false;
+		} else {
+			setIcon(new ImageIcon(getClass().getResource("../icons/flag.png")));
+			isFlagged = true;
 		}
 	}
 	
 	@Override
 	public void setEnabled(boolean b)
 	{
-//		super.setEnabled(b);
 		this.setForeground(Color.decode("#026202"));
 		this.setBackground(Color.decode("#eeeeee"));
 	}
 	
+	
+	
 	@Override
-	public void mouseClicked(MouseEvent e)
-	{
-
+	public void mouseClicked(MouseEvent e) {
+		
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e)
-	{
-
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e)
-	{
-
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()) {
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()){
 			mineField.openCell(this);
-		}
-		if (SwingUtilities.isRightMouseButton(e) && !isDiscovered()) {
-			toggleFlag();
-		}
+	    }
+		if (SwingUtilities.isRightMouseButton(e) && !isChecked){
+			flag();
+	    }
 	}
-	
 	@Override
-	public void mouseReleased(MouseEvent e)
-	{
-	
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	
 	
 }
