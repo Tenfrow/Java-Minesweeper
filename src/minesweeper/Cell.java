@@ -49,6 +49,9 @@ class Cell extends JButton implements MouseListener {
         setEnabled(false);
         if (hasMine()) {
             setIcon(ResourceManager.getIcon("mine"));
+            if (isFlagged) {
+                setBackground(Color.green);
+            }
         } else {
             this.isDiscovered = true;
         }
@@ -79,7 +82,6 @@ class Cell extends JButton implements MouseListener {
     @Override
     public void setEnabled(boolean b) {
         this.setForeground(Color.decode("#026202"));
-        this.setForeground(ResourceManager.getRandomColor());
         this.setBackground(Color.decode("#eeeeee"));
     }
 
