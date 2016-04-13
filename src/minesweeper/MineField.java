@@ -125,9 +125,7 @@ class MineField extends JPanel {
     }
 
     private void discoverAllMines() {
-        for (Cell cell : minedCells) {
-            cell.discover();
-        }
+        minedCells.forEach(Cell::discover);
     }
 
     private void setupCells() {
