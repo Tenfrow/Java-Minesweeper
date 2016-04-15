@@ -1,19 +1,19 @@
 package minesweeper;
 
-import java.awt.GridLayout;
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+
 public class Minesweeper {
 
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Minesweeper");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
-		frame.setLayout(new GridLayout(1, 1));
-
-		MineField mineField = new MineField(15, 15, 20);
-		frame.add(mineField);
-
-		frame.setBounds(100, 100, 500, 500);
-	}
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Minesweeper");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setLayout(new GridBagLayout());
+        MineField mineField = new MineField(20, 20, 0.13);
+        frame.add(mineField);
+        frame.pack();
+        frame.setMinimumSize(frame.getSize());
+    }
 
 }
