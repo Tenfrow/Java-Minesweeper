@@ -9,18 +9,34 @@ public class Minesweeper {
         JFrame frame = new JFrame("Minesweeper");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        GridBagLayout layout = new GridBagLayout();
-        frame.setLayout(layout);
-        MineField mineField = new MineField(20, 20, 0.13);
-        frame.add(mineField);
-        JLabel label = new JLabel("0");
-        label.setPreferredSize(new Dimension(50, 50));
-        GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.PAGE_END;
-        c.gridy = 1;
-        frame.add(new JLabel("0"), c);
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        JPanel statsPanel = new JPanel();
+        //stats.setBorder();
+        GridBagLayout statsLayout = new GridBagLayout();
+        statsPanel.setLayout(statsLayout);
+
+        statsPanel.add(new JLabel("099"));
+        JButton restart = new JButton("R");
+        restart.setPreferredSize(new Dimension(40, 40));
+        statsPanel.add(restart);
+        statsPanel.add(new JLabel("000"));
+
+        JPanel fieldPanel = new JPanel();
+        fieldPanel.setLayout(new GridBagLayout());
+        MineField mineField = new MineField(10, 10, 20);
+        fieldPanel.add(mineField);
+
+        statsLayout.columnWidths = new int[]{frame.getWidth()/3, frame.getWidth()/3, frame.getWidth()/3};
+        mainPanel.add(statsPanel);
+        mainPanel.add(fieldPanel);
+
+        frame.add(mainPanel);
         frame.pack();
+
         frame.setMinimumSize(frame.getSize());
+
     }
 
 }
