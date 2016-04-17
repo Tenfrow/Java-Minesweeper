@@ -4,18 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 
 
-class GameWindow extends JFrame {
+class GameWindow {
+
+    private JFrame window;
 
     GameWindow(String title) {
-        this.setTitle(title);
+        window = new JFrame(title);
     }
 
-    void create() {
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setVisible(true);
+    void show() {
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window.setVisible(true);
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-
         JPanel statsPanel = new JPanel();
         //stats.setBorder();
         GridBagLayout statsLayout = new GridBagLayout();
@@ -32,13 +33,13 @@ class GameWindow extends JFrame {
         MineField mineField = new MineField(10, 10, 20);
         fieldPanel.add(mineField);
 
-//        statsLayout.columnWidths = new int[]{frame.getWidth()/3, frame.getWidth()/3, frame.getWidth()/3};
+        statsLayout.columnWidths = new int[]{window.getWidth() / 3, window.getWidth() / 3, window.getWidth() / 3};
         mainPanel.add(statsPanel);
         mainPanel.add(fieldPanel);
 
-        this.add(mainPanel);
-        this.pack();
-
-        this.setMinimumSize(this.getSize());
+        window.add(mainPanel);
+        window.pack();
+        window.setSize(new Dimension());
+        window.setMinimumSize(window.getSize());
     }
 }
