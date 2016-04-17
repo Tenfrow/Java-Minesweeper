@@ -3,7 +3,6 @@ package minesweeper;
 import javax.swing.*;
 import java.awt.*;
 
-
 class GameWindow {
 
     private JFrame window;
@@ -13,9 +12,6 @@ class GameWindow {
     }
 
     void show() {
-        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        window.setVisible(true);
-        window.setResizable(false);
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
@@ -35,12 +31,15 @@ class GameWindow {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(new GridBagLayout());
         MineField mineField = new MineField(15, 15, 25);
-        fieldPanel.add(mineField);
+        fieldPanel.add(mineField.getFieldPanel());
 
         mainPanel.add(fieldPanel);
 
         window.add(mainPanel);
         window.pack();
         window.setSize(new Dimension(window.getWidth() + 10, window.getHeight() + 10));
+        window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        window.setVisible(true);
+        window.setResizable(false);
     }
 }
