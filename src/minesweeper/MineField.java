@@ -7,7 +7,6 @@ import java.util.Random;
 
 class MineField {
 
-    private static final long serialVersionUID = -6201984664074599724L;
     private JPanel fieldPanel;
     private int rows;
     private int cols;
@@ -24,7 +23,6 @@ class MineField {
         this.minesCount = mines;
         this.field = new Cell[rows][cols];
         setupCells();
-        placeMines();
     }
 
     MineField(int rows, int cols, double minesRatio) {
@@ -40,6 +38,10 @@ class MineField {
     }
 
     int openCell(Cell cell) {
+        if (!isMinesSet()) {
+            placeMines();
+            isMinesSet = true;
+        }
         int research = discoverCell(cell);
         if (research < 0) {
             //TODO KABOOOM!
@@ -53,7 +55,7 @@ class MineField {
         cell.discover();
         int surroundingMines = countMines(cell);
         if (surroundingMines > 0) {
-            cell.setSurroundingMinesAmount(surroundingMines);
+            cell.setNumber(surroundingMines);
         }
         if (surroundingMines == 0) {
             for (Cell cellToOpen : getCoveredSurroundingCells(cell)) {
