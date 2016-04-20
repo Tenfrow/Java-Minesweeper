@@ -5,9 +5,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
-class MineField extends JPanel {
+class MineField {
 
-    private static final long serialVersionUID = -6201984664074599724L;
+    private JPanel fieldPanel;
     private int rows;
     private int cols;
     private int minesCount = 0;
@@ -16,13 +16,13 @@ class MineField extends JPanel {
     private boolean isMinesSet = false;
 
     MineField(int rows, int cols, int mines) {
-        this.setLayout(new GridLayout(rows, cols));
+        this.fieldPanel = new JPanel();
+        this.fieldPanel.setLayout(new GridLayout(rows, cols));
         this.rows = rows;
         this.cols = cols;
         this.minesCount = mines;
         this.field = new Cell[rows][cols];
         setupCells();
-        placeMines();
     }
 
     MineField(int rows, int cols, double minesRatio) {
@@ -33,7 +33,15 @@ class MineField extends JPanel {
         return isMinesSet;
     }
 
+    JPanel getFieldPanel() {
+        return fieldPanel;
+    }
+
     int openCell(Cell cell) {
+        if (!isMinesSet()) {
+            placeMines();
+            isMinesSet = true;
+        }
         int research = discoverCell(cell);
         if (research < 0) {
             //TODO KABOOOM!
@@ -47,7 +55,7 @@ class MineField extends JPanel {
         cell.discover();
         int surroundingMines = countMines(cell);
         if (surroundingMines > 0) {
-            cell.setSurroundingMinesAmount(surroundingMines);
+            cell.setNumber(surroundingMines);
         }
         if (surroundingMines == 0) {
             for (Cell cellToOpen : getCoveredSurroundingCells(cell)) {
@@ -134,7 +142,7 @@ class MineField extends JPanel {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 Cell cell = field[i][j] = new Cell(this, i, j);
-                this.add(cell);
+                this.fieldPanel.add(cell);
             }
         }
     }

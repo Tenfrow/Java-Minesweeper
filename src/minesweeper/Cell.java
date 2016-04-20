@@ -7,7 +7,6 @@ import java.awt.event.MouseListener;
 
 class Cell extends JButton implements MouseListener {
 
-    private static final long serialVersionUID = 4993048163772888881L;
     private boolean hasMine = false;
     private MineField mineField;
     private boolean isDiscovered = false;
@@ -61,6 +60,19 @@ class Cell extends JButton implements MouseListener {
         return isFlagged;
     }
 
+    void setNumber(int number) {
+        if (number > 0) {
+            this.setText(Integer.toString(number));
+            this.setForeground(ResourceManager.getNumberColor(number));
+        }
+    }
+
+    @Override
+    public void setEnabled(boolean b) {
+        this.setForeground(Color.decode("#026202"));
+        this.setBackground(Color.decode("#eeeeee"));
+    }
+
     private void toggleFlag() {
         if (isFlagged) {
             setFlag(false);
@@ -79,16 +91,14 @@ class Cell extends JButton implements MouseListener {
         }
     }
 
-    @Override
-    public void setEnabled(boolean b) {
-        this.setForeground(Color.decode("#026202"));
-        this.setBackground(Color.decode("#eeeeee"));
+    private void openCell() {
+        mineField.openCell(this);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e) && !isFlagged()) {
-            mineField.openCell(this);
+            openCell();
         }
         if (SwingUtilities.isRightMouseButton(e) && !isDiscovered()) {
             toggleFlag();
@@ -96,30 +106,15 @@ class Cell extends JButton implements MouseListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
+    public void mouseClicked(MouseEvent e) { }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) { }
 
     @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
+    public void mouseExited(MouseEvent e) { }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) { }
 
-    }
-
-    void setSurroundingMinesAmount(int surroundingMinesAmount) {
-        if (surroundingMinesAmount > 0) {
-            this.setText(Integer.toString(surroundingMinesAmount));
-            this.setForeground(ResourceManager.getNumberColor(surroundingMinesAmount));
-        }
-
-    }
 }
