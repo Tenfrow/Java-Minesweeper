@@ -1,22 +1,30 @@
 package minesweeper;
 
-class Game {
+import java.util.Observable;
 
-    private static Game instance = null;
+class Game extends Observable {
+
+    private static Game instance = new Game();
+    private boolean isPlaying = false;
 
     static Game getInstance() {
-        if (instance == null) {
-            instance = new Game();
-        }
         return instance;
     }
 
     void start() {
-
+        isPlaying = true;
+        setChanged();
+        notifyObservers();
     }
 
-    void end() {
+    void stop() {
+        isPlaying = false;
+        setChanged();
+        notifyObservers();
+    }
 
+    boolean isPlaying() {
+        return isPlaying;
     }
 
 }

@@ -21,8 +21,7 @@ class GameWindow {
         statsPanel.add(new JLabel("099"));
         JButton restart = new JButton("R");
         statsPanel.add(restart);
-        JLabel stopwatchLabel = new JLabel("000");
-        statsPanel.add(stopwatchLabel);
+        statsPanel.add(new StopwatchLabel());
 
         mainPanel.add(statsPanel);
 
@@ -35,7 +34,6 @@ class GameWindow {
 
         window.add(mainPanel);
         window.pack();
-//        window.setSize(new Dimension(window.getWidth() + 10, window.getHeight() + 10));
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         window.setVisible(true);
         window.setResizable(false);

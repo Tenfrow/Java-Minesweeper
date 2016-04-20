@@ -41,12 +41,14 @@ class MineField {
         if (!isMinesSet()) {
             placeMines();
             isMinesSet = true;
+            Game.getInstance().start();
         }
         int research = discoverCell(cell);
         if (research < 0) {
             //TODO KABOOOM!
             discoverAllMines();
             cell.setBackground(Color.decode("#ff0000"));
+            Game.getInstance().stop();
         }
         return research;
     }
