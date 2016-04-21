@@ -3,9 +3,11 @@ package minesweeper;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
-class MineField {
+class MineField implements Observer {
 
     private JPanel fieldPanel;
     private int rows;
@@ -22,6 +24,7 @@ class MineField {
         this.cols = cols;
         this.minesCount = mines;
         this.field = new Cell[rows][cols];
+        Game.getInstance().addObserver(this);
         setupCells();
     }
 
@@ -39,18 +42,13 @@ class MineField {
 
     int openCell(Cell cell) {
         if (!isMinesSet()) {
-            placeMines();
-            isMinesSet = true;
             Game.getInstance().start();
         }
-        int research = discoverCell(cell);
-        if (research < 0) {
-            //TODO KABOOOM!
-            discoverAllMines();
-            cell.setBackground(Color.decode("#ff0000"));
+        int minesResearch = discoverCell(cell);
+        if (minesResearch < 0) {
             Game.getInstance().stop();
         }
-        return research;
+        return minesResearch;
     }
 
     private int discoverCell(Cell cell) {
@@ -149,4 +147,13 @@ class MineField {
         }
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (Game.getInstance().isPlaying()) {
+            placeMines();
+        } else {
+            //todo: win case
+            discoverAllMines();
+        }
+    }
 }

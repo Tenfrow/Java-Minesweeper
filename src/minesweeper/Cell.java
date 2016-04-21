@@ -93,6 +93,9 @@ class Cell extends JButton implements MouseListener {
 
     private void openCell() {
         mineField.openCell(this);
+        if (hasMine()) {
+            setBackground(Color.decode("#ff0000"));
+        }
     }
 
     @Override
